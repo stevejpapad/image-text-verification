@@ -31,12 +31,14 @@ cd finegrained-crossmodal-misinformation
 
 ## FIGMENTS Benchmark
 
-FIGMENTS is a benchmark dataset designed for evaluating fine-grained crossmodal misinformation detection models. This dataset consists of real-world instances of misinformation collected from Snopes and Reuters, and it addresses unimodal bias by providing a more challenging task for text-only or image-only models to outperform multimodal ones. The images are sourced from within the articles of Snopes and Reuters, as well as Google Images. We do not provide the images, only their URLs. 
+FIGMENTS is a benchmark dataset designed for evaluating fine-grained crossmodal misinformation detection models. This dataset consists of real-world instances of misinformation collected from Snopes and Reuters, and it addresses unimodal bias by excluding asymmetric misinformation and employing modality balancing. Modality balancing denotes that images and captions will appear twice, once in their truthful and once in their misleading pairs to ensure that the model considers both modalities when distinguishing between truth and misinformation.
+
+![Screenshot](FIGMENTS/figments.png)
+
+The images are sourced from within the articles of Snopes and Reuters, as well as Google Images. We do not provide the images, only their URLs. 
 FIGMENTS supports multiclass classification of three categories: Truthful, Out-of-context, and Miscaptioned image-caption pairs but it can also be used for binary classification. 
 We collected 260 articles from Snopes and 78 from Reuters that met our criteria which translates to 338 Truthful, 338 Miscaptioned and 324 Out-of-Context pairs. 
 Please note that this dataset is intended solely for research purposes.
-
-![Screenshot](FIGMENTS/figments.png)
 
 - If you are only interested in the FIGMENTS benchmark, we provide the processed dataset and the visual and textual features from CLIP ViT-L/14 in `/FIGMENTS`. 
 - If you also want to download the images from the provided URLs, you can run the following code:
@@ -131,7 +133,7 @@ run_experiment(
 This work is partially funded by the project "vera.ai: VERification Assisted by Artificial Intelligence" under grant agreement no. 101070093.
 
 ## Licence
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/finegrained-crossmodal-misinformation/blob/main/LICENSE) file for more details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/unimodal-bias-crossmodal-misinformation/blob/master/LICENSE) file for more details.
 
 ## Contact
 Stefanos-Iordanis Papadopoulos (stefpapad@iti.gr)
