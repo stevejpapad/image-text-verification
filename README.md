@@ -21,8 +21,8 @@ If you find our work useful, please cite:
 
 - Clone this repo: 
 ```
-git clone https://github.com/stevejpapad/finegrained-crossmodal-misinformation
-cd finegrained-crossmodal-misinformation
+git clone https://github.com/stevejpapad/unimodal-bias-crossmodal-misinformation
+cd unimodal-bias-crossmodal-misinformation
 ```
 
 - Create a python (>= 3.8) environment (Anaconda is recommended) 
