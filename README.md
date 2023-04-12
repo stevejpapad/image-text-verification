@@ -1,4 +1,4 @@
-# unimodalbias-crossmodal-misinformation
+# unimodal-bias-crossmodal-misinformation
 
 Official repository for the "Alleviating Unimodal Bias in Crossmodal Misinformation Detection" paper.
 
