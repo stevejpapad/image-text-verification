@@ -21,8 +21,8 @@ If you find our work useful, please cite:
 
 - Clone this repo: 
 ```
-git clone https://github.com/stevejpapad/unimodal-bias-crossmodal-misinformation
-cd unimodal-bias-crossmodal-misinformation
+git clone https://github.com/stevejpapad/figments-and-misalignments
+cd figments-and-misalignments
 ```
 
 - Create a python (>= 3.8) environment (Anaconda is recommended) 
@@ -133,7 +133,7 @@ run_experiment(
 This work is partially funded by the project "vera.ai: VERification Assisted by Artificial Intelligence" under grant agreement no. 101070093.
 
 ## Licence
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/unimodal-bias-crossmodal-misinformation/blob/master/LICENSE) file for more details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/figments-and-misalignments/blob/master/LICENSE) file for more details.
 
 ## Contact
 Stefanos-Iordanis Papadopoulos (stefpapad@iti.gr)
