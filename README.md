@@ -1,4 +1,4 @@
-# unimodal-bias-crossmodal-misinformation
+# figments-and-misalignments
 
 Official repository for the "Alleviating Unimodal Bias in Crossmodal Misinformation Detection" paper.
 
