@@ -1,9 +1,9 @@
 # figments-and-misalignments
 
-Official repository for the "Alleviating Unimodal Bias in Crossmodal Misinformation Detection" paper.
+Official repository for the "Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection" paper.
 
 ## Abstract
->*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation and the urgent need for effective strategies to detect and prevent its spread. This study focuses on Cross-Modal Misinformation (CMM) where image-caption pairs work together to spread falsehoods. We contrast CMM with Asymmetric Multimodal Misinformation (AMM), where one dominant modality propagates falsehoods while other modalities have little or no influence. We show that AMM adds noise to the training and evaluation process while exacerbating the unimodal bias, where unimodal misinformation detectors outperform their multimodal counterparts on an inherently multimodal task. To address this issue, we collect and curate FIGMENTS, a robust evaluation benchmark for CMM, which consists of real-world cases of misinformation, excludes AMM and utilizes modality balancing to successfully alleviate the unimodal bias. FIGMENTS also provides a first step towards fine-grained CMM detection by including three classes: truthful, out-of-context, and miscaptioned image-caption pairs. Furthermore, we introduce a method for generating realistic synthetic training data that maintains crossmodal relations between legitimate images and false human-written captions which we term the crossmodal misalignment (Misalign). We conduct an extensive data-centric comparative study where Misalign consistently improved overall performance on FIGMENTS when integrated in dataset ensembles, in both binary (+6.26%) and multiclass settings (+15.8%).*
+>*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation and the urgent need for effective strategies to detect and prevent its spread. This study focuses on CrossModal Misinformation (CMM) where image-caption pairs work together to spread falsehoods. We contrast CMM with Asymmetric Multimodal Misinformation (AMM), where one dominant modality propagates falsehoods while other modalities have little or no influence. We show that AMM adds noise to the training and evaluation process while exacerbating the unimodal bias, where text-only or image-only detectors can seemingly outperform their multimodal counterparts on an inherently multimodal task. To address this issue, we collect and curate FIGMENTS, a robust evaluation benchmark for CMM, which consists of real world cases of misinformation, excludes AMM and utilizes modality balancing to successfully alleviate unimodal bias. FIGMENTS also provides a first step towards fine-grained CMM detection by including three classes: truthful, out-of-context, and miscaptioned image-caption pairs. Furthermore, we introduce a method for generating realistic synthetic training data that maintains crossmodal relations between legitimate images and false human-written captions that we term Crossmodal HArd Synthetic MisAlignment (CHASMA). We conduct extensive comparative study using a Transformer-based architecture. Our results show that incorporating CHASMA in conjunction with other generated datasets consistently improved the overall performance on FIGMENTS in both binary (+6.26%) and multiclass settings (+15.8%).*
 
 This repository also reproduces the methods presented in [Synthetic Misinformers: Generating and Combating Multimodal Misinformation](https://arxiv.org/abs/2303.01217).
 
@@ -87,13 +87,13 @@ from extract_features import extract_CLIP_features
 extract_CLIP_features(data_path=INPUT_PATH, output_path=OUTPUT_PATH) 
 ```
 
-- To prepare the *Misalign* dataset run the following: 
+- To prepare the *CHASMA* dataset run the following: 
 ```python
 from prepare_datasets import prepare_Misalign
 prepare_Misalign(CLIP_VERSION="ViT-L/14", choose_gpu=0)
 ```
 
-- To train the DT-Transformer (e.g) for 30 epochs, on binary classification, using the *Misalign* dataset while utilizing both multimodal and unimodal (text-only, image-only) inputs with a learning_rate of 5e-5, 4 transformer layers, 8 attention heads of dimensionality 1024, run the following code: 
+- To train the DT-Transformer (e.g) for 30 epochs, on binary classification, using the *CHASMA* dataset while utilizing both multimodal and unimodal (text-only, image-only) inputs with a learning_rate of 5e-5, 4 transformer layers, 8 attention heads of dimensionality 1024, run the following code: 
 ```python
 run_experiment(
     dataset_methods_list = [
@@ -117,7 +117,7 @@ run_experiment(
 )
 ```
 
-- Similarly, for finegrained detection using with the *Misalign + R-NESt + NC-t2t* run the following: 
+- Similarly, for finegrained detection using with the *CHASMA + R-NESt + NC-t2t* run the following: 
 ```python
 run_experiment(
     dataset_methods_list = [
