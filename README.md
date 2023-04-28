@@ -1,6 +1,6 @@
 # figments-and-misalignments
 
-Official repository for the "Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection" paper.
+Official repository for the "Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection" paper. You can read the pre-print here: https://doi.org/10.48550/arXiv.2304.14133
 
 ## Abstract
 >*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation and the urgent need for effective strategies to detect and prevent its spread. This study focuses on CrossModal Misinformation (CMM) where image-caption pairs work together to spread falsehoods. We contrast CMM with Asymmetric Multimodal Misinformation (AMM), where one dominant modality propagates falsehoods while other modalities have little or no influence. We show that AMM adds noise to the training and evaluation process while exacerbating the unimodal bias, where text-only or image-only detectors can seemingly outperform their multimodal counterparts on an inherently multimodal task. To address this issue, we collect and curate FIGMENTS, a robust evaluation benchmark for CMM, which consists of real world cases of misinformation, excludes AMM and utilizes modality balancing to successfully alleviate unimodal bias. FIGMENTS also provides a first step towards fine-grained CMM detection by including three classes: truthful, out-of-context, and miscaptioned image-caption pairs. Furthermore, we introduce a method for generating realistic synthetic training data that maintains crossmodal relations between legitimate images and false human-written captions that we term Crossmodal HArd Synthetic MisAlignment (CHASMA). We conduct extensive comparative study using a Transformer-based architecture. Our results show that incorporating CHASMA in conjunction with other generated datasets consistently improved the overall performance on FIGMENTS in both binary (+6.26%) and multiclass settings (+15.8%).*
@@ -9,6 +9,13 @@ This repository also reproduces the methods presented in [Synthetic Misinformers
 
 If you find our work useful, please cite:
 ```
+@article{papadopoulos2023figments,
+  title={Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection},
+  author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis C},
+  journal={arXiv preprint arXiv:2304.14133},
+  year={2023}
+}
+
 @article{papadopoulos2023synthetic,
   title={Synthetic Misinformers: Generating and Combating Multimodal Misinformation},
   author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis C},
