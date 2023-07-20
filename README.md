@@ -1,4 +1,4 @@
-# verite-benchmark
+# image-text-verification
 
 Official repository for the "VERITE: A Robust Benchmark for Multimodal Misinformation Detection Accounting for Unimodal Bias" paper. You can read the pre-print here: https://doi.org/10.48550/arXiv.2304.14133
 
@@ -29,8 +29,8 @@ If you find our work useful, please cite:
 
 - Clone this repo: 
 ```
-git clone https://github.com/stevejpapad/verite-benchmark
-cd verite-benchmark
+git clone https://github.com/stevejpapad/image-text-verification
+cd image-text-verification
 ```
 
 - Create a python (>= 3.8) environment (Anaconda is recommended) 
@@ -141,7 +141,7 @@ run_experiment(
 This work is partially funded by the project "vera.ai: VERification Assisted by Artificial Intelligence" under grant agreement no. 101070093.
 
 ## Licence
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/verite-benchmark/blob/master/LICENSE) file for more details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/image-text-verification/blob/master/LICENSE) file for more details.
 
 ## Contact
 Stefanos-Iordanis Papadopoulos (stefpapad@iti.gr)
