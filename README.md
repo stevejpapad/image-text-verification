@@ -1,11 +1,11 @@
-# figments-and-misalignments
+# verite-benchmark
 
-Official repository for the "Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection" paper. You can read the pre-print here: https://doi.org/10.48550/arXiv.2304.14133
+Official repository for the "VERITE: A Robust Benchmark for Multimodal Misinformation Detection Accounting for Unimodal Bias" paper. You can read the pre-print here: https://doi.org/10.48550/arXiv.2304.14133
 
 ## Abstract
->*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation and the urgent need for effective strategies to detect and prevent its spread. This study focuses on CrossModal Misinformation (CMM) where image-caption pairs work together to spread falsehoods. We contrast CMM with Asymmetric Multimodal Misinformation (AMM), where one dominant modality propagates falsehoods while other modalities have little or no influence. We show that AMM adds noise to the training and evaluation process while exacerbating the unimodal bias, where text-only or image-only detectors can seemingly outperform their multimodal counterparts on an inherently multimodal task. Unimodal bias was identified in three popular benchmark datasets, namely Fakeddit, COSMOS and Twitter (VMU). To address this issue, we collect and curate FIGMENTS, a robust evaluation benchmark for CMM, which consists of real-world cases of misinformation, excludes AMM and utilizes modality balancing to successfully alleviate unimodal bias. FIGMENTS also provides a first step towards fine-grained CMM detection by including three classes: truthful, out-of-context, and miscaptioned image-caption pairs. Furthermore, we introduce a method for generating realistic synthetic training data that maintains crossmodal relations between legitimate images and false human-written captions that we term Crossmodal HArd Synthetic MisAlignment (CHASMA). We conduct extensive comparative study using a Transformer-based architecture. Our results show that incorporating CHASMA in conjunction with other generated datasets consistently improved the overall performance on FIGMENTS in both binary (+6.26%) and multiclass settings (+16.04%).*
+>*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation (MM) and the urgent need for effective strategies to detect and prevent its spread. In recent years, the challenge of multimodal misinformation detection (MMD) has garnered significant attention by researchers and has mainly involved the creation of annotated, weakly annotated, or synthetically generated training datasets, along with the development of various deep learning MMD models. However, the problem of unimodal bias in MMD benchmarks -where biased or unimodal methods outperform their multimodal counterparts on an inherently multimodal task- has been overlooked. In this study, we systematically investigate and identify the presence of unimodal bias in widely-used MMD benchmarks (VMU-Twitter, COSMOS), raising concerns about their suitability for reliable evaluation. To address this issue, we introduce the “VERification of Image-TExtpairs” (VERITE) benchmark for MMD which incorporates real-world data, excludes “asymmetric multimodal misinformation” and utilizes “modality balancing”. We conduct an extensive comparative study with a Transformer-based architecture that shows the ability of VERITE to effectively address unimodal bias, rendering it a robust evaluation framework for MMD. Furthermore, we introduce a new method -termed Crossmodal HArd Synthetic MisAlignment (CHASMA)- for generating realistic synthetic training data that preserve crossmodal relations between legitimate images and false human-written captions. By leveraging CHASMA in the training process, we observe consistent and notable improvements in predictive performance on the VERITE; with a 9.2% increase in accuracy*
 
-This repository also reproduces the methods presented in [Synthetic Misinformers: Generating and Combating Multimodal Misinformation](https://arxiv.org/abs/2303.01217).
+This repository also reproduces the methods presented in [Synthetic Misinformers: Generating and Combating Multimodal Misinformation](https://dl.acm.org/doi/fullHtml/10.1145/3592572.3592842).
 
 If you find our work useful, please cite:
 ```
@@ -16,10 +16,11 @@ If you find our work useful, please cite:
   year={2023}
 }
 
-@article{papadopoulos2023synthetic,
+@inproceedings{papadopoulos2023synthetic,
   title={Synthetic Misinformers: Generating and Combating Multimodal Misinformation},
-  author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis C},
-  journal={arXiv preprint arXiv:2303.01217},
+  author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis},
+  booktitle={Proceedings of the 2nd ACM International Workshop on Multimedia AI against Disinformation},
+  pages={36--44},
   year={2023}
 }
 ```
@@ -28,8 +29,8 @@ If you find our work useful, please cite:
 
 - Clone this repo: 
 ```
-git clone https://github.com/stevejpapad/figments-and-misalignments
-cd figments-and-misalignments
+git clone https://github.com/stevejpapad/verite-benchmark
+cd verite-benchmark
 ```
 
 - Create a python (>= 3.8) environment (Anaconda is recommended) 
@@ -40,26 +41,26 @@ cd figments-and-misalignments
 
 FIGMENTS is a benchmark dataset designed for evaluating fine-grained crossmodal misinformation detection models. This dataset consists of real-world instances of misinformation collected from Snopes and Reuters, and it addresses unimodal bias by excluding asymmetric misinformation and employing modality balancing. Modality balancing denotes that images and captions will appear twice, once in their truthful and once in their misleading pairs to ensure that the model considers both modalities when distinguishing between truth and misinformation.
 
-![Screenshot](FIGMENTS/figments.png)
+![Screenshot](VERITE/verite.png)
 
 The images are sourced from within the articles of Snopes and Reuters, as well as Google Images. We do not provide the images, only their URLs. 
-FIGMENTS supports multiclass classification of three categories: Truthful, Out-of-context, and Miscaptioned image-caption pairs but it can also be used for binary classification. 
+VERITE supports multiclass classification of three categories: Truthful, Out-of-context, and Miscaptioned image-caption pairs but it can also be used for binary classification. 
 We collected 260 articles from Snopes and 78 from Reuters that met our criteria which translates to 338 Truthful, 338 Miscaptioned and 324 Out-of-Context pairs. 
 Please note that this dataset is intended solely for research purposes.
 
-- If you are only interested in the FIGMENTS benchmark, we provide the processed dataset and the visual and textual features from CLIP ViT-L/14 in `/FIGMENTS`. 
+- If you are only interested in the VERITE benchmark, we provide the processed dataset and the visual and textual features from CLIP ViT-L/14 in `/VERITE`. 
 - If you also want to download the images from the provided URLs, you can run the following code:
 ```python
-from prepare_datasets import prepare_figments
-prepare_FIGMENTS(download_images=True)
+from prepare_datasets import prepare_verite
+prepare_VERITE(download_images=True)
 ```
-- To extract visual and textual features of FIGMENTS with the use of CLIP ViT-L/14 run the following code: 
+- To extract visual and textual features of VERITE with the use of CLIP ViT-L/14 run the following code: 
 ```python
 from extract_features import extract_CLIP_features
-extract_CLIP_features(data_path='FIGMENTS/', output_path='FIGMENTS/FIGMENTS_')
+extract_CLIP_features(data_path='VERITE/', output_path='VERITE/VERITE_')
 ```
 
-Samples from the FIGMENTS benchmark:
+Samples from the VERITE benchmark:
 ```python
 {'caption': 'Image shows a damaged railway bridge collapsed into a body of water in June 2020 in Murmansk, Russia.',
  'image_path': 'images/true_239.jpg',
@@ -71,7 +72,7 @@ Samples from the FIGMENTS benchmark:
  'image_path': 'images/false_239.jpg',
  'label': 'out-of-context'}
 ```
-If you encounter any problems when downloading and preparing FIGMENTS (e.g dead image URLs) please contact with stefpapad@iti.gr
+If you encounter any problems when downloading and preparing VERITE (e.g dead image URLs) please contact with stefpapad@iti.gr
 
 ## Prerequisite
 If you want to reproduce the experiments on the paper it is necassary to first download the following datasets and save them in their respective folder: 
@@ -140,7 +141,7 @@ run_experiment(
 This work is partially funded by the project "vera.ai: VERification Assisted by Artificial Intelligence" under grant agreement no. 101070093.
 
 ## Licence
-This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/figments-and-misalignments/blob/master/LICENSE) file for more details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](https://github.com/stevejpapad/verite-benchmark/blob/master/LICENSE) file for more details.
 
 ## Contact
 Stefanos-Iordanis Papadopoulos (stefpapad@iti.gr)
