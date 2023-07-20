@@ -37,9 +37,9 @@ cd verite-benchmark
 
 - Install all dependencies with: `conda install --file requirements.txt` and follow the [instructions](https://github.com/openai/CLIP) to install CLIP.
 
-## FIGMENTS Benchmark
+## VERITE Benchmark
 
-FIGMENTS is a benchmark dataset designed for evaluating fine-grained crossmodal misinformation detection models. This dataset consists of real-world instances of misinformation collected from Snopes and Reuters, and it addresses unimodal bias by excluding asymmetric misinformation and employing modality balancing. Modality balancing denotes that images and captions will appear twice, once in their truthful and once in their misleading pairs to ensure that the model considers both modalities when distinguishing between truth and misinformation.
+VERITE is a benchmark dataset designed for evaluating fine-grained crossmodal misinformation detection models. This dataset consists of real-world instances of misinformation collected from Snopes and Reuters, and it addresses unimodal bias by excluding asymmetric misinformation and employing modality balancing. Modality balancing denotes that images and captions will appear twice, once in their truthful and once in their misleading pairs to ensure that the model considers both modalities when distinguishing between truth and misinformation.
 
 ![Screenshot](VERITE/verite.png)
 
