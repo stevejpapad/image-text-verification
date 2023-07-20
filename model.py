@@ -28,7 +28,7 @@ class DT_Transformer(nn.Module):
                 dropout=dropout,
                 activation=activation,
                 batch_first=True,
-                norm_first=True,
+                norm_first=False,
             ),
             num_layers=tf_layers,
         )
@@ -50,12 +50,18 @@ class DT_Transformer(nn.Module):
             x = txt
         elif "texts" not in self.use_features:
             x = img
+        elif "-attention" in self.use_features:    
+            x = torch.cat((img, txt), axis=1)
         else:
+            img = img.unsqueeze(1)
+            txt = txt.unsqueeze(1)
             x = torch.cat((img, txt), axis=1)
 
         b_size = x.shape[0]
 
         x = self.transformer(x)
+        x = x.mean(1)
+        
         x = self.layer_norm(x)
         x = self.dropout(x)
         x = self.fcl(x)

@@ -24,7 +24,7 @@ class DatasetIterator(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         current = self.input_data.iloc[idx]
-        
+                
         img = self.visual_features[current.image_id].values
         txt = self.textual_features[current.id].values
         label = float(current.falsified)
@@ -147,7 +147,7 @@ def down_sample(input_data):
     X, y = rus.fit_resample(input_data[['id', 'image_id']], input_data['falsified'])
     X['falsified'] = y
     
-    return X
+    return X.sample(frac=1)
 
 
 def early_stop(has_not_improved_for, model, optimizer, history, current_epoch, PATH, metrics_list):
@@ -378,22 +378,22 @@ def accuracy_CvC(y_true, y_pred, Ca, Cb):
     
     return round(metrics.accuracy_score(y_true_avb, y_pred_avb), 4)
 
-def eval_figments(model, clip_version, device, batch_size, num_workers, use_multiclass=False, label_map={'true': 0, 'miscaptioned': 1, 'out-of-context': 2}):
+def eval_verite(model, clip_version, device, batch_size, num_workers, use_multiclass=False, label_map={'true': 0, 'miscaptioned': 1, 'out-of-context': 2}):
     
-    figments_test = pd.read_csv('FIGMENTS/FIGMENTS.csv', index_col=0)
-    figments_test = figments_test.reset_index().rename({'index': 'id', 'label': 'falsified'}, axis=1)
-    figments_test['image_id'] = figments_test['id']
+    verite_test = pd.read_csv('VERITE/VERITE.csv', index_col=0)
+    verite_test = verite_test.reset_index().rename({'index': 'id', 'label': 'falsified'}, axis=1)
+    verite_test['image_id'] = verite_test['id']
     
-    figments_text_embeddings = np.load("FIGMENTS/FIGMENTS_clip_text_embeddings_" + clip_version + ".npy").astype('float32')
-    figments_image_embeddings = np.load("FIGMENTS/FIGMENTS_clip_image_embeddings_" + clip_version + ".npy").astype('float32')
+    verite_text_embeddings = np.load("VERITE/VERITE_clip_text_embeddings_" + clip_version + ".npy").astype('float32')
+    verite_image_embeddings = np.load("VERITE/VERITE_clip_image_embeddings_" + clip_version + ".npy").astype('float32')
 
-    figments_image_embeddings = pd.DataFrame(figments_image_embeddings, index=figments_test.id.values).T
-    figments_text_embeddings = pd.DataFrame(figments_text_embeddings, index=figments_test.id.values).T
+    verite_image_embeddings = pd.DataFrame(verite_image_embeddings, index=verite_test.id.values).T
+    verite_text_embeddings = pd.DataFrame(verite_text_embeddings, index=verite_test.id.values).T
     
-    figments_test.falsified.replace(label_map, inplace=True)
-    figments_dataloader = prepare_dataloader(figments_image_embeddings, figments_text_embeddings, figments_test, batch_size, num_workers, False)
+    verite_test.falsified.replace(label_map, inplace=True)
+    verite_dataloader = prepare_dataloader(verite_image_embeddings, verite_text_embeddings, verite_test, batch_size, num_workers, False)
     
-    y_true, y_pred = eval_step(model, figments_dataloader, -1, device, use_multiclass=use_multiclass, return_results=False)
+    y_true, y_pred = eval_step(model, verite_dataloader, -1, device, use_multiclass=use_multiclass, return_results=False)
         
     if use_multiclass:
         acc = metrics.accuracy_score(y_true, y_pred)   
@@ -404,7 +404,7 @@ def eval_figments(model, clip_version, device, batch_size, num_workers, use_mult
         miscaptioned_ = cm_results[1]
         out_of_context = cm_results[2]
 
-        figments_results = {
+        verite_results = {
             "epoch": -1,
             "Accuracy": round(acc, 4),
             'True': round(cm_results[0], 4),
@@ -415,29 +415,29 @@ def eval_figments(model, clip_version, device, batch_size, num_workers, use_mult
     else:
         y_pred = y_pred.round()
 
-        figments_results = {}
+        verite_results = {}
         
-        figments_results['epoch'] = -1
+        verite_results['epoch'] = -1
         
-        figments_results['True'] = sensitivity_per_class(y_true, y_pred, 0)
-        figments_results['Miscaptioned'] = sensitivity_per_class(y_true, y_pred, 1)
-        figments_results['Out-Of-Context'] = sensitivity_per_class(y_true, y_pred, 2)
+        verite_results['True'] = sensitivity_per_class(y_true, y_pred, 0)
+        verite_results['Miscaptioned'] = sensitivity_per_class(y_true, y_pred, 1)
+        verite_results['Out-Of-Context'] = sensitivity_per_class(y_true, y_pred, 2)
         
-        figments_results['true_v_miscaptioned'] = accuracy_CvC(y_true, y_pred, 0, 1)
-        figments_results['true_v_ooc'] = accuracy_CvC(y_true, y_pred, 0, 2)
-        figments_results['miscaptioned_v_ooc'] = accuracy_CvC(y_true, y_pred, 1, 2)
+        verite_results['true_v_miscaptioned'] = accuracy_CvC(y_true, y_pred, 0, 1)
+        verite_results['true_v_ooc'] = accuracy_CvC(y_true, y_pred, 0, 2)
+        verite_results['miscaptioned_v_ooc'] = accuracy_CvC(y_true, y_pred, 1, 2)
         
         y_true_all = y_true.copy()
         y_true_all[np.where(y_true_all == 2)[0]] = 1
 
-        figments_results['accuracy'] = round(metrics.accuracy_score(y_true_all, y_pred), 4)
-        figments_results['balanced_accuracy'] = round(metrics.balanced_accuracy_score(y_true_all, y_pred), 4)
+        verite_results['accuracy'] = round(metrics.accuracy_score(y_true_all, y_pred), 4)
+        verite_results['balanced_accuracy'] = round(metrics.balanced_accuracy_score(y_true_all, y_pred), 4)
     
-    print(figments_results)
-    return figments_results
+    print(verite_results)
+    return verite_results
 
 
-def load_data(choose_dataset, choose_columns=['id', 'image_id', 'falsified']):
+def load_data(choose_dataset): # , choose_columns=['id', 'image_id', 'falsified']
 
     print("Load data for:", choose_dataset)
     
@@ -603,8 +603,9 @@ def load_data(choose_dataset, choose_columns=['id', 'image_id', 'falsified']):
     train_data.reset_index(drop=True, inplace=True)
     valid_data.reset_index(drop=True, inplace=True)    
     test_data.reset_index(drop=True, inplace=True)
-    
-    return train_data[choose_columns], valid_data[choose_columns], test_data[choose_columns] 
+
+    return train_data, valid_data, test_data     
+    # return train_data[choose_columns], valid_data[choose_columns], test_data[choose_columns] 
 
 
 def load_ensemble_data(dataset_method, use_multiclass, choose_columns=['id', 'image_id', 'falsified']):
@@ -738,10 +739,16 @@ def load_features(input_parameters):
             
             print("Misalign features")
     
-            all_misalign_features = np.load("VisualNews/MISALIGN_clip_text_embeddings_" + clip_version + ".npy").astype('float32')
+            print("Load numpy")
+            all_misalign_features = np.load("VisualNews/MISALIGN_clip_text_embeddings_" + clip_version + ".npy").astype('float32')           
+            
+            print("Load IDX")
             all_idx = np.load("VisualNews/MISALIGN_item_ids_" + clip_version + ".npy")
+
+            print("To dataframe")
             all_misalign_features = pd.DataFrame(all_misalign_features.T, columns=all_idx)
     
+            print("Concat")
             clip_text_embeddings = pd.concat([clip_text_embeddings, all_misalign_features], axis=1)
             
         if 'EntitySwaps_random_topic' in input_parameters["CHOOSE_DATASET"]:

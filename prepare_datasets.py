@@ -36,27 +36,27 @@ def save_image(url, name):
             if not img.mode == 'RGB':
                 img = img.convert('RGB')
             
-            img.save("FIGMENTS/images/" + name + ".jpg")
+            img.save("VERITE/images/" + name + ".jpg")
             
     except Exception as e: 
         print(e, "!!!", url)
         
 
         
-def prepare_figments(download_images=True):
+def prepare_verite(download_images=True):
     
-    figments = pd.read_csv('FIGMENTS/FIGMENTS_articles.csv', index_col=0)
+    verite = pd.read_csv('VERITE/VERITE_articles.csv', index_col=0)
 
     if download_images:
         
         print("Scrape images!")
         
-        directory = 'FIGMENTS/images'
+        directory = 'VERITE/images'
         if not os.path.exists(directory):
             os.makedirs(directory)
 
         # Scrape images
-        for (i, row) in tqdm(figments.iterrows(), total=figments.shape[0]):
+        for (i, row) in tqdm(verite.iterrows(), total=verite.shape[0]):
             idx = row.id
             t_url = row.true_url
             f_url = row.false_url
@@ -72,7 +72,7 @@ def prepare_figments(download_images=True):
     print("Unpack dataset!")
     unpack_data = []
 
-    for (i, row) in tqdm(figments.iterrows(), total=figments.shape[0]):
+    for (i, row) in tqdm(verite.iterrows(), total=verite.shape[0]):
 
         idx = row.id
         true_caption = row.true_caption
@@ -100,8 +100,8 @@ def prepare_figments(download_images=True):
                 'label': 'out-of-context'
             })        
 
-    figments_df = pd.DataFrame(unpack_data)
-    figments_df.to_csv('FIGMENTS/FIGMENTS.csv')
+    verite_df = pd.DataFrame(unpack_data)
+    verite_df.to_csv('VERITE/VERITE.csv')
 
 def load_split_VisualNews(clip_version="ViT-L/14", load_features=True):
     

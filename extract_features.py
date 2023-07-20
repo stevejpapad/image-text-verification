@@ -120,8 +120,8 @@ def load_dataset(data_path):
         data = json.load(open(data_path + 'data.json'))
         data = pd.DataFrame(data)
         
-    elif 'FIGMENTS' in data_path:
-        data = pd.read_csv(data_path + 'FIGMENTS.csv', index_col=0)
+    elif 'VERITE' in data_path:
+        data = pd.read_csv(data_path + 'VERITE.csv', index_col=0)
         data = pd.DataFrame(data)
         
     elif 'Fakeddit' in data_path:

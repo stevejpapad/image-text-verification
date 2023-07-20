@@ -1,12 +1,12 @@
 from experiment import run_experiment
-from prepare_datasets import prepare_figments, prepare_Misalign, get_K_most_similar, extract_entities, prepare_CLIP_NESt, prepare_R_NESt
+from prepare_datasets import prepare_verite, prepare_Misalign, get_K_most_similar, extract_entities, prepare_CLIP_NESt, prepare_R_NESt
 from extract_features import extract_CLIP_features, extract_CLIP_twitter
 
-# Scrape the images of FIGMENTS and prepare the dataset
-prepare_figments(download_images=True)
+# Scrape the images of VERITE and prepare the dataset
+prepare_verite(download_images=True)
 
-# Extract features with CLIP ViT-L/14 from FIGMENTS, COSMOS, Twitter, VisualNews etc
-extract_CLIP_features(data_path='FIGMENTS/', output_path='FIGMENTS/FIGMENTS_')
+# Extract features with CLIP ViT-L/14 from VERITE, COSMOS, Twitter, VisualNews etc
+extract_CLIP_features(data_path='VERITE/', output_path='VERITE/VERITE_')
 extract_CLIP_features(data_path='COSMOS/', output_path='COSMOS/COSMOS_') 
 extract_CLIP_twitter(output_path='Twitter/', choose_clip_version="ViT-L/14", choose_gpu=0)
 extract_CLIP_features(data_path='VisualNews/origin/', output_path='VisualNews/') 
@@ -31,7 +31,7 @@ prepare_R_NESt()
 extract_CLIP_features(data_path='EntitySwaps_topic_random', output_path='VisualNews/EntitySwaps_topic_random', use_image=False)
 
 
-# ### Table: I (Twitter)
+# ### Table: 2 (Twitter)
 run_experiment(
     dataset_methods_list = [
         'Twitter_comparable', # Uses the evaluation protocol of previous works
@@ -39,6 +39,7 @@ run_experiment(
     ],
     modality_options = [
         ["images", "texts"],
+        ["images", "texts", "-attention"],        
         ["texts"], 
         ["images"]
     ],
@@ -55,7 +56,7 @@ run_experiment(
     init_model_name = ''
 )
 
-# ### Tables: II, III, IV (single datasets)
+# ### Tables: 3, 4 and parts of 6 (single binary datasets)
 run_experiment(
     dataset_methods_list = [
         'random_sampling_topic', # RSt
@@ -70,6 +71,7 @@ run_experiment(
     ],
     modality_options = [
         ["images", "texts"],
+        ["images", "texts", "-attention"],        
         ["texts"], 
         ["images"]
     ],
@@ -86,24 +88,7 @@ run_experiment(
     init_model_name = ''
 )
 
-# Table IV: Ensemble datasets for binary classification on FIGMENTS
-run_experiment(
-    dataset_methods_list = [
-        'EntitySwaps_CLIP_topicXnews_clippings_txt2txt',     
-        'EntitySwaps_random_topicXnews_clippings_txt2txt',     
-        'MisalignXnews_clippings_txt2txt',  
-        'Misalign_DXnews_clippings_txt2txt',
-        'EntitySwaps_random_topicXMisalign_DXnews_clippings_txt2txt',
-        'EntitySwaps_CLIP_topicXMisalign_DXnews_clippings_txt2txt',
-        'EntitySwaps_random_topicXMisalignXnews_clippings_txt2txt',
-        'EntitySwaps_CLIP_topicXMisalignXnews_clippings_txt2txt',        
-    ],
-    epochs=30,
-    use_multiclass = False,
-    balancing_method = 'downsample',
-)
-
-# Table V: Multiclass classification on FIGMENTS
+# Table 5: Multiclass classification on VERITE
 run_experiment(
     dataset_methods_list = [
         'EntitySwaps_CLIP_topicXclip_based_sampling_topic',
@@ -123,3 +108,21 @@ run_experiment(
     use_multiclass = True,
     balancing_method = 'downsample',
 )
+
+# Table 6: Ensemble datasets for binary classification on VERITE
+run_experiment(
+    dataset_methods_list = [
+        'EntitySwaps_CLIP_topicXnews_clippings_txt2txt',     
+        'EntitySwaps_random_topicXnews_clippings_txt2txt',     
+        'MisalignXnews_clippings_txt2txt',  
+        'Misalign_DXnews_clippings_txt2txt',
+        'EntitySwaps_random_topicXMisalign_DXnews_clippings_txt2txt',
+        'EntitySwaps_CLIP_topicXMisalign_DXnews_clippings_txt2txt',
+        'EntitySwaps_random_topicXMisalignXnews_clippings_txt2txt',
+        'EntitySwaps_CLIP_topicXMisalignXnews_clippings_txt2txt',        
+    ],
+    epochs=30,
+    use_multiclass = False,
+    balancing_method = 'downsample',
+)
+

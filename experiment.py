@@ -19,7 +19,7 @@ from utils import (
     prepare_dataloader,
     binary_acc,
     eval_cosmos,
-    eval_figments,
+    eval_verite,
     load_data,
     load_ensemble_data,
     save_results_csv,
@@ -32,6 +32,7 @@ def run_experiment(
     dataset_methods_list,
     modality_options = [
         ["images", "texts"],
+        ["images", "texts", "-attention"],        
         ["texts"], 
         ["images"]
     ],
@@ -104,10 +105,12 @@ def run_experiment(
 
                 elif use_features == ["texts"]:
                     model_name = dataset_method + '_textonly_' + str(seed) + init_model_name
-                    
-                else:
+                
+                elif use_features == ["images"]:
                     model_name = dataset_method + '_imageonly_' + str(seed) + init_model_name
-
+                else:
+                    model_name = dataset_method + '_-attention_' + str(seed) + init_model_name
+                    
                 torch.manual_seed(seed)
 
                 print("*****", seed, use_features, dataset_method, choose_CLIP_version, model_name, "*****")
@@ -165,15 +168,14 @@ def run_experiment(
                                     print("!!!!!!!!!!!!!!!!!!!", parameters, "!!!!!!!!!!!!!!!!!!!")
 
                                     if parameters["CLIP_VERSION"] == "ViT-L/14":
-                                        emb_dim_ = 1536
+                                        emb_dim_ = 768
                                     elif parameters["CLIP_VERSION"] == "ViT-B/32":
-                                        emb_dim_ = 1024
+                                        emb_dim_ = 512
 
-                                    if parameters["USE_FEATURES"] == ["images", "texts"]:
-                                        parameters["EMB_SIZE"] = emb_dim_
-                                    else:
-                                        parameters["EMB_SIZE"] = int(emb_dim_ / 2)
-
+                                    parameters["EMB_SIZE"] = emb_dim_  
+                                    if "-attention" in parameters["USE_FEATURES"]:
+                                        parameters["EMB_SIZE"] = emb_dim_ * 2
+                                        
                                     model = DT_Transformer(
                                         device=device,
                                         tf_layers=parameters["TF_LAYERS"],
@@ -205,7 +207,7 @@ def run_experiment(
                                     history = []
                                     has_not_improved_for = 0
 
-                                    PATH = "checkpoints_pt/model" + model_name + ".pt" # !!!!!!!!!!!!!!!!!!!!!!!!! 
+                                    PATH = "checkpoints_pt/model" + model_name + ".pt" 
 
                                     for epoch in range(parameters["EPOCHS"]):
 
@@ -269,7 +271,7 @@ def run_experiment(
                                         use_multiclass=use_multiclass
                                     )
 
-                                    figments_results = eval_figments(
+                                    verite_results = eval_verite(
                                         model,
                                         clip_version,
                                         device,
@@ -291,13 +293,13 @@ def run_experiment(
                                     "cosmos_" + str(key): val for key, val in cosmos_results.items()
                                     }
 
-                                    res_figments = {
-                                        "figments_" + str(key): val for key, val in figments_results.items()
+                                    res_verite = {
+                                        "verite_" + str(key): val for key, val in verite_results.items()
                                     }
 
                                     all_results = {**res_test, **res_val}
                                     all_results = {**res_cosmos, **all_results}
-                                    all_results = {**res_figments, **all_results}
+                                    all_results = {**res_verite, **all_results}
                                     all_results = {**parameters, **all_results}
                                     all_results["path"] = PATH
                                     all_results["history"] = history
@@ -307,6 +309,6 @@ def run_experiment(
                                     
                                     save_results_csv(
                                         "results/",
-                                        "results_figments_multiclass" if use_multiclass else 'results_figments',
+                                        "results_verite_multiclass" if use_multiclass else 'results_verite',
                                         all_results,
                                     )
