@@ -10,7 +10,7 @@ This repository also reproduces the methods presented in [Synthetic Misinformers
 If you find our work useful, please cite:
 ```
 @article{papadopoulos2023figments,
-  title={Figments and Misalignments: A Framework for Fine-grained Crossmodal Misinformation Detection},
+  title={VERITE: A Robust Benchmark for Multimodal Misinformation Detection Accounting for Unimodal Bias},
   author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis C},
   journal={arXiv preprint arXiv:2304.14133},
   year={2023}
@@ -54,13 +54,10 @@ Please note that this dataset is intended solely for research purposes.
 from prepare_datasets import prepare_verite
 prepare_VERITE(download_images=True)
 ```
-- To extract visual and textual features of VERITE with the use of CLIP ViT-L/14 run the following code: 
-```python
-from extract_features import extract_CLIP_features
-extract_CLIP_features(data_path='VERITE/', output_path='VERITE/VERITE_')
-```
-
-Samples from the VERITE benchmark:
+The above code reads the "VERITE_articles.csv" file which comprises six columns `['id', 'true_url', 'false_caption', 'true_caption', 'false_url', 'query', 'snopes_url']` and 337 rows. 
+After downloading the images, the dataset is "un-packed" into separate instances per class: true, miscaptioned, out-of-context. 
+The final "VERITE.csv" consists of three columns `['caption', 'image_path', 'label']` and 1000 rows. 
+Sample from "VERITE.csv":
 ```python
 {'caption': 'Image shows a damaged railway bridge collapsed into a body of water in June 2020 in Murmansk, Russia.',
  'image_path': 'images/true_239.jpg',
@@ -72,6 +69,13 @@ Samples from the VERITE benchmark:
  'image_path': 'images/false_239.jpg',
  'label': 'out-of-context'}
 ```
+
+- To extract visual and textual features of VERITE with the use of CLIP ViT-L/14 run the following code: 
+```python
+from extract_features import extract_CLIP_features
+extract_CLIP_features(data_path='VERITE/', output_path='VERITE/VERITE_')
+```
+
 If you encounter any problems when downloading and preparing VERITE (e.g dead image URLs) please contact with stefpapad@iti.gr
 
 ## Prerequisite
