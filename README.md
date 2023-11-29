@@ -76,7 +76,7 @@ from extract_features import extract_CLIP_features
 extract_CLIP_features(data_path='VERITE/', output_path='VERITE/VERITE_')
 ```
 
-If you encounter any problems when downloading and preparing VERITE (e.g dead image URLs) please contact with stefpapad@iti.gr
+If you encounter any problems while downloading and preparing VERITE (e.g., broken image URLs), please contact stefpapad@iti.gr
 
 ## Prerequisite
 If you want to reproduce the experiments on the paper it is necassary to first download the following datasets and save them in their respective folder: 
