@@ -35,7 +35,7 @@ cd image-text-verification
 
 - Create a python (>= 3.8) environment (Anaconda is recommended) 
 
-- Install all dependencies with: `conda install --file requirements.txt` and follow the [instructions](https://github.com/openai/CLIP) to install CLIP.
+- Install all dependencies with: `pip install --file requirements.txt`. If needed, follow the [instructions](https://github.com/openai/CLIP) to install CLIP.
 
 ## VERITE Benchmark
 
