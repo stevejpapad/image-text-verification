@@ -1,0 +1,10 @@
+numpy==1.21.5
+pandas==1.4.2
+torch==1.11.0
+scikit-learn==1.1.1
+imblearn==0.10.1
+spacy==3.5.2
+ftfy==6.1.1
+regex==2022.4.24
+tqdm==4.64.0
+clip @ git+https://github.com/openai/CLIP.git@b46f5ac7587d2e1862f8b7b1573179d80dcdd620
