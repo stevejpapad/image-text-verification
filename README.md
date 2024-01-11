@@ -1,6 +1,6 @@
 # image-text-verification
 
-Official repository for the "VERITE: A Robust Benchmark for Multimodal Misinformation Detection Accounting for Unimodal Bias" paper. You can read the pre-print here: https://doi.org/10.48550/arXiv.2304.14133
+Official repository for the "VERITE: a Robust benchmark for multimodal misinformation detection accounting for unimodal bias" paper which was published at the [International Journal of Multimedia Information Retrieval](https://link.springer.com/article/10.1007/s13735-023-00312-6). 
 
 ## Abstract
 >*Multimedia content has become ubiquitous on social media platforms, leading to the rise of multimodal misinformation (MM) and the urgent need for effective strategies to detect and prevent its spread. In recent years, the challenge of multimodal misinformation detection (MMD) has garnered significant attention by researchers and has mainly involved the creation of annotated, weakly annotated, or synthetically generated training datasets, along with the development of various deep learning MMD models. However, the problem of unimodal bias in MMD benchmarks -where biased or unimodal methods outperform their multimodal counterparts on an inherently multimodal task- has been overlooked. In this study, we systematically investigate and identify the presence of unimodal bias in widely-used MMD benchmarks (VMU-Twitter, COSMOS), raising concerns about their suitability for reliable evaluation. To address this issue, we introduce the “VERification of Image-TExtpairs” (VERITE) benchmark for MMD which incorporates real-world data, excludes “asymmetric multimodal misinformation” and utilizes “modality balancing”. We conduct an extensive comparative study with a Transformer-based architecture that shows the ability of VERITE to effectively address unimodal bias, rendering it a robust evaluation framework for MMD. Furthermore, we introduce a new method -termed Crossmodal HArd Synthetic MisAlignment (CHASMA)- for generating realistic synthetic training data that preserve crossmodal relations between legitimate images and false human-written captions. By leveraging CHASMA in the training process, we observe consistent and notable improvements in predictive performance on the VERITE; with a 9.2% increase in accuracy*
@@ -9,11 +9,15 @@ This repository also reproduces the methods presented in [Synthetic Misinformers
 
 If you find our work useful, please cite:
 ```
-@article{papadopoulos2023figments,
-  title={VERITE: A Robust Benchmark for Multimodal Misinformation Detection Accounting for Unimodal Bias},
+@article{papadopoulos2024verite,
+  title={VERITE: a Robust benchmark for multimodal misinformation detection accounting for unimodal bias},
   author={Papadopoulos, Stefanos-Iordanis and Koutlis, Christos and Papadopoulos, Symeon and Petrantonakis, Panagiotis C},
-  journal={arXiv preprint arXiv:2304.14133},
-  year={2023}
+  journal={International Journal of Multimedia Information Retrieval},
+  volume={13},
+  number={1},
+  pages={4},
+  year={2024},
+  publisher={Springer}
 }
 
 @inproceedings{papadopoulos2023synthetic,
